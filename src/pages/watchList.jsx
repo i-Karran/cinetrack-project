@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { WatchlistContext } from "../context/watchlistContext";
 import MovieCard from "../components/movieCard";
+import { Link } from "react-router-dom";
 
 const Watchlist = () => {
   const { watchlist, removeFromWatchlist } = useContext(WatchlistContext);
@@ -10,8 +11,28 @@ const Watchlist = () => {
       <h1>My Watchlist</h1>
 
       {watchlist.length === 0 ? (
-        <p>Your watchlist is empty. Go back and add some movies!</p>
+        // --- ADD THIS BLOCK ---
+        <div style={{ textAlign: "center", marginTop: "50px" }}>
+          <p style={{ fontSize: "1.2rem", marginBottom: "20px" }}>
+            Your watchlist is empty. Go find some favorites!
+          </p>
+          <Link
+            to="/"
+            style={{
+              padding: "10px 25px",
+              backgroundColor: "#e50914",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "5px",
+              fontWeight: "bold",
+            }}
+          >
+            Browse Movies
+          </Link>
+        </div>
       ) : (
+        // ---------------------
+        // ---------------------
         <div
           className="movie-grid"
           style={{
