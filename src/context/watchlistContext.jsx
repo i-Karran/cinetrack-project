@@ -5,18 +5,18 @@ export const WatchlistContext = createContext();
 
 export const WatchlistProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("user-token"),
+  const [userToken, setUserToken] = useState(
+    localStorage.getItem("user-token"),
   );
 
-  const login = () => {
-    localStorage.setItem("user-token", "12345");
-    setIsLoggedIn(true);
+  const login = (token) => {
+    localStorage.setItem("user-token", token);
+    setUserToken(token); // This triggers a re-render!
   };
 
   const logout = () => {
     localStorage.removeItem("user-token");
-    setIsLoggedIn(false);
+    setUserToken(null); // This triggers a re-render!
   };
 
   // 2. Load data from LocalStorage on first mount
@@ -41,9 +41,14 @@ export const WatchlistProvider = ({ children }) => {
   };
 
   return (
-    <WatchlistContext.Provider
-      value={{ watchlist, addToWatchlist, removeFromWatchlist }}
-    >
+    <WatchlistContext.Provider value={{ 
+      watchlist, 
+      addToWatchlist, 
+      removeFromWatchlist,
+      userToken, // 2. Provide these to the app
+      login, 
+      logout 
+    }}>
       {children}
     </WatchlistContext.Provider>
   );

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/homepage"; // Check your filename casing!
 import Watchlist from "./pages/watchList";
 import MovieDetails from "./pages/movieDetails";
 import Login from "./pages/login";
-import ProtectedRoute from "./components/protectedRoute"
+import ProtectedRoute from "./components/protectedRoute";
+import { WatchlistContext } from "./context/watchlistContext";
 
 const App = () => {
+  const { userToken, logout } = useContext(WatchlistContext); // Listen to context
   return (
     <Router>
       <div className="app-container">
@@ -28,9 +30,15 @@ const App = () => {
           >
             My Watchlist
           </Link>
-          <Link to="/login" style={{ color: "white", textDecoration: "none" }}>
-            Login
-          </Link>
+          {userToken ? (
+            <button onClick={logout} style={{ marginLeft: "auto" }}>
+              Logout
+            </button>
+          ) : (
+            <Link to="/login" style={{ marginLeft: "auto", color: "white" }}>
+              Login
+            </Link>
+          )}
         </nav>
 
         <Routes>
